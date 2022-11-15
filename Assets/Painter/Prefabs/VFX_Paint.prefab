@@ -19674,7 +19674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paintColor: {r: 1, g: 0.9546468, b: 0.43081754, a: 1}
   splashMinRadius: 0.2
-  splashMaxRadius: 0.2
+  splashMaxRadius: 1
   splashStrength: 1
   splashHardness: 0.01
 --- !u!1 &6184012715001391077

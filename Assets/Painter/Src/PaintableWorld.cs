@@ -81,8 +81,6 @@ namespace PainterSystem
                 return;
             }
 
-            Debug.LogError($"Paint {paintable.gameObject.name}");
-
             RenderTexture runtimeRT = paintable.RuntimeTexture;
             RenderTexture paintedRT = paintable.PaintedTexture;
             RenderTexture fixedIslandsRT = paintable.FixedIslandsTexture;
