@@ -19,20 +19,14 @@ namespace PainterSystem
 
         private void OnParticleCollision(GameObject other)
         {
-            int numCollisionEvents = particlesSystemComponent.GetCollisionEvents(other, collisionEvents);
-
-            Debug.Log($"Try Paint {other.name}");
-
             PaintableRenderer paintableComponent = other.GetComponent<PaintableRenderer>();
             if (paintableComponent == null) {
                 return;
             }
 
+            int numCollisionEvents = particlesSystemComponent.GetCollisionEvents(other, collisionEvents);
             for (int i = 0; i < numCollisionEvents; i++) {
                 Vector3 pos = collisionEvents[i].intersection;
-
-                Debug.Log($"Paint {paintableComponent.gameObject.name}");
-
                 this.Paint(paintableComponent, pos);
             }
         }
