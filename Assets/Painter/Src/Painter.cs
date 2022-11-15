@@ -18,7 +18,7 @@ namespace PainterSystem
         public void Paint(PaintableRenderer paintable, Vector3 pos)
         {
             float radius = Random.Range(this.splashMinRadius, this.splashMaxRadius);
-            PaintableWorld.Instance.Paint(paintable, pos, radius, this.splashHardness, this.splashStrength, this.paintColor);
+            paintable.Paint(pos, this.paintColor, radius, this.splashHardness, this.splashStrength);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace PainterSystem
 {
@@ -98,6 +99,11 @@ namespace PainterSystem
                 filterMode = FilterMode.Bilinear,
             };
             this.UVIslandsTexture.name = $"Paint-UVIslandsTexture-{this.id}";
+        }
+
+        public void Paint(Vector3 pos, Color color, float radius, float hardness, float strength)
+        {
+            PaintableWorld.Instance.Paint(this, pos, radius, hardness, strength, color);
         }
     }
 }
