@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using static UnityEditor.PlayerSettings;
+﻿using UnityEngine;
 
 namespace PainterSystem
 {
@@ -12,18 +10,20 @@ namespace PainterSystem
         [SerializeField]
         private string shaderMainTextureName = "_BaseMap";
         [SerializeField]
-        private string shaderTargetTextureName = "_MaskTexture";
+        private string shaderTargetMaskTextureName = "_MaskTexture";
 
         [SerializeField]
         private Renderer rendererComponent = null;
 
         private uint id;
 
-        private Material materialClone = null;
+        public Material PaintableMaterialClone { get; private set; }
 
-        public RenderTexture FixedIslandsTexture { get; private set; }
-        public RenderTexture PaintedTexture { get; private set; }
-        public RenderTexture RuntimeTexture { get; private set; }
+        // Painting
+        public RenderTexture PaintedMaskTexture { get; private set; }
+        public RenderTexture RuntimeMaskTexture { get; private set; }
+        public RenderTexture FixedIslandsMaskTexture { get; private set; }
+
         public RenderTexture UVIslandsTexture { get; private set; }
 
         public float ShaderExtendIslandOffset => this.shaderExtendIslandOffset;
@@ -47,11 +47,23 @@ namespace PainterSystem
             this.OnBeginPlay();
         }
 
+        private void OnDestroy()
+        {
+            Destroy(this.PaintableMaterialClone);
+
+            Destroy(this.RuntimeMaskTexture);
+            Destroy(this.FixedIslandsMaskTexture);
+            Destroy(this.PaintedMaskTexture);
+
+            Destroy(this.UVIslandsTexture);
+        }
+
         private void OnDisable()
         {
-            this.RuntimeTexture.Release();
-            this.PaintedTexture.Release();
-            this.FixedIslandsTexture.Release();
+            this.RuntimeMaskTexture.Release();
+            this.PaintedMaskTexture.Release();
+            this.FixedIslandsMaskTexture.Release();
+
             this.UVIslandsTexture.Release();
         }
         #endregion
@@ -59,8 +71,8 @@ namespace PainterSystem
         protected override void OnBeginPlay()
         {
             PaintableWorld.Instance.InitPaintable(this);
-            this.materialClone.SetTexture(this.shaderTargetTextureName, this.FixedIslandsTexture);
-            this.rendererComponent.material = this.materialClone;
+            this.PaintableMaterialClone.SetTexture(this.shaderTargetMaskTextureName, this.FixedIslandsMaskTexture);
+            this.rendererComponent.material = this.PaintableMaterialClone;
         }
 
         protected override void OnInitialize()
@@ -73,32 +85,32 @@ namespace PainterSystem
                 }
             }
 
-            this.materialClone = new Material(this.rendererComponent.material);
+            this.PaintableMaterialClone = new Material(this.rendererComponent.material);
 
             Texture mainTexture = this.rendererComponent.sharedMaterial.GetTexture(this.ShaderMainTextureName);
             int width = mainTexture != null ? mainTexture.width : 1024;
             int height = mainTexture != null ? mainTexture.height : 1024;
 
-            this.RuntimeTexture = new RenderTexture(width, height, 0) {
+            this.RuntimeMaskTexture = new RenderTexture(width, height, 0) {
                 useMipMap = false,
                 filterMode = FilterMode.Bilinear,
             };
-            this.RuntimeTexture.name = $"Paint-RuntimeTexture-{this.id}";
+            this.RuntimeMaskTexture.name = $"Paint-RuntimeMaskTexture-{this.id}";
 
-            this.PaintedTexture = new RenderTexture(width, height, 0) {
+            this.PaintedMaskTexture = new RenderTexture(width, height, 0) {
                 useMipMap = false,
                 filterMode = FilterMode.Bilinear,
             };
-            this.PaintedTexture.name = $"Paint-PaintResultTexture-{this.id}";
+            this.PaintedMaskTexture.name = $"Paint-PaintResultMaskTexture-{this.id}";
 
-            this.FixedIslandsTexture = new RenderTexture(this.PaintedTexture.descriptor);
-            this.FixedIslandsTexture.name = $"Paint-FixedIslandsTexture-{this.id}";
+            this.FixedIslandsMaskTexture = new RenderTexture(this.PaintedMaskTexture.descriptor);
+            this.FixedIslandsMaskTexture.name = $"Paint-FixedIslandsTexture-{this.id}";
 
             this.UVIslandsTexture = new RenderTexture(width, height, 0) {
                 useMipMap = false,
                 filterMode = FilterMode.Bilinear,
             };
-            this.UVIslandsTexture.name = $"Paint-UVIslandsTexture-{this.id}";
+            this.UVIslandsTexture.name = $"UVIslandsTexture-{this.id}";
         }
 
         public void Paint(Vector3 pos, Color color, float radius, float hardness, float strength)

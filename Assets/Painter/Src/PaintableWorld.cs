@@ -10,8 +10,11 @@ namespace PainterSystem
         private static uint GetNextPaintableID() => ++paintableId;
         #endregion
 
+        [SerializeField]
         public Shader shaderFixIslands;
+        [SerializeField]
         public Shader shaderMarkIslands;
+        [SerializeField]
         public Shader shaderPaintUV;
 
         private int positionID = Shader.PropertyToID("_PainterPosition");
@@ -25,7 +28,8 @@ namespace PainterSystem
 
         Material materialFixIslands = null;
         Material materialMarkIslands = null;
-        Material materialPaintUV = null;
+        Material materialPaintTexture = null;
+        Material materialStickerTexture = null;
 
         CommandBuffer commandBuffer;
 
@@ -33,12 +37,12 @@ namespace PainterSystem
         {
             base.OnInitialize();
 
-            this.materialPaintUV = new Material(shaderPaintUV);
-            this.materialFixIslands = new Material(shaderFixIslands);
-            this.materialMarkIslands = new Material(shaderMarkIslands);
+            this.materialPaintTexture = new Material(this.shaderPaintUV);
+            this.materialFixIslands = new Material(this.shaderFixIslands);
+            this.materialMarkIslands = new Material(this.shaderMarkIslands);
 
             this.commandBuffer = new CommandBuffer();
-            this.commandBuffer.name = "CommmandBuffer - " + gameObject.name;
+            this.commandBuffer.name = "CommmandBuffer - " + this.gameObject.name;
         }
 
         public void InitPaintable(PaintableRenderer paintable)
@@ -49,17 +53,18 @@ namespace PainterSystem
 
             paintable.SetId(PaintableWorld.GetNextPaintableID());
 
-            RenderTexture runtimeRT = paintable.RuntimeTexture;
-            RenderTexture paintedRT = paintable.PaintedTexture;
-            RenderTexture fixedIslandsRT = paintable.FixedIslandsTexture;
-            RenderTexture uvIslandsRT = paintable.FixedIslandsTexture;
+            RenderTexture runtimeRT = paintable.RuntimeMaskTexture;
+            RenderTexture paintedRT = paintable.PaintedMaskTexture;
+            RenderTexture fixedIslandsRT = paintable.FixedIslandsMaskTexture;
+
+            RenderTexture uvIslandsRT = paintable.FixedIslandsMaskTexture;
 
             Renderer rendererComponent = paintable.RendererComponent;
 
             // Blit the original content of the texture in the runtimeRT.
             this.commandBuffer.SetRenderTarget(runtimeRT);
             this.commandBuffer.SetRenderTarget(paintedRT);
-            this.commandBuffer.Blit(runtimeRT, paintedRT);
+            // this.commandBuffer.Blit(runtimeRT, paintedRT);
 
             // Create UV islandsRT.
             this.commandBuffer.SetRenderTarget(uvIslandsRT);
@@ -75,40 +80,41 @@ namespace PainterSystem
             this.commandBuffer.Clear();
         }
 
-        public void Paint(PaintableRenderer paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null)
+        public void Paint(PaintableRenderer paintable, Vector3 pos, float radius, float hardness, float strength, Color color)
         {
             if (paintable == null) {
                 return;
             }
 
-            RenderTexture runtimeRT = paintable.RuntimeTexture;
-            RenderTexture paintedRT = paintable.PaintedTexture;
-            RenderTexture fixedIslandsRT = paintable.FixedIslandsTexture;
-            RenderTexture uvIslandsRT = paintable.FixedIslandsTexture;
+            RenderTexture runtimeMaskRT = paintable.RuntimeMaskTexture;
+            RenderTexture paintedMaskRT = paintable.PaintedMaskTexture;
+            RenderTexture fixedIslandsMaskRT = paintable.FixedIslandsMaskTexture;
+
+            RenderTexture uvIslandsRT = paintable.FixedIslandsMaskTexture;
 
             Renderer rendererComponent = paintable.RendererComponent;
 
-            this.materialPaintUV.SetVector(this.positionID, pos);
-            this.materialPaintUV.SetFloat(this.hardnessID, hardness);
-            this.materialPaintUV.SetFloat(this.strengthID, strength);
-            this.materialPaintUV.SetFloat(this.radiusID, radius);
-            this.materialPaintUV.SetTexture(this.textureID, paintedRT);
-            this.materialPaintUV.SetColor(colorID, color ?? Color.red);
+            this.materialPaintTexture.SetVector(this.positionID, pos);
+            this.materialPaintTexture.SetFloat(this.hardnessID, hardness);
+            this.materialPaintTexture.SetFloat(this.strengthID, strength);
+            this.materialPaintTexture.SetFloat(this.radiusID, radius);
+            this.materialPaintTexture.SetTexture(this.textureID, paintedMaskRT);
+            this.materialPaintTexture.SetColor(colorID, color);
 
             this.materialFixIslands.SetFloat(uvOffsetID, paintable.ShaderExtendIslandOffset);
             this.materialFixIslands.SetTexture(uvIslandsID, uvIslandsRT);
 
-            // Create the new pain data in a texture.
-            this.commandBuffer.SetRenderTarget(runtimeRT);
-            this.commandBuffer.DrawRenderer(rendererComponent, this.materialPaintUV);
+            // Create the new paint data in a texture.
+            this.commandBuffer.SetRenderTarget(runtimeMaskRT);
+            this.commandBuffer.DrawRenderer(rendererComponent, this.materialPaintTexture);
 
             // Add the new paint to the old painted texture.
-            this.commandBuffer.SetRenderTarget(paintedRT);
-            this.commandBuffer.Blit(runtimeRT, paintedRT);
+            this.commandBuffer.SetRenderTarget(paintedMaskRT);
+            this.commandBuffer.Blit(runtimeMaskRT, paintedMaskRT);
 
             // Fix the painted texture islands.
-            this.commandBuffer.SetRenderTarget(fixedIslandsRT);
-            this.commandBuffer.Blit(paintedRT, fixedIslandsRT, this.materialFixIslands);
+            this.commandBuffer.SetRenderTarget(fixedIslandsMaskRT);
+            this.commandBuffer.Blit(paintedMaskRT, fixedIslandsMaskRT, this.materialFixIslands);
 
             Graphics.ExecuteCommandBuffer(this.commandBuffer);
             this.commandBuffer.Clear();

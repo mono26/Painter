@@ -803,7 +803,7 @@ GameObject:
   - component: {fileID: 8714936469223717794}
   - component: {fileID: 1084723860747581853}
   m_Layer: 0
-  m_Name: Weapon_Painter Variant
+  m_Name: PFB_Weapon_Painter
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

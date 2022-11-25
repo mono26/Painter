@@ -176,7 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderExtendIslandOffset: 1
   shaderMainTextureName: _MainTex
-  shaderTargetTextureName: _MaskTexture
+  shaderTargetMaskTextureName: _MaskTexture
   rendererComponent: {fileID: 104592098}
 --- !u!64 &104592096
 MeshCollider:
@@ -569,7 +569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderExtendIslandOffset: 1
   shaderMainTextureName: _MainTex
-  shaderTargetTextureName: _MaskTexture
+  shaderTargetMaskTextureName: _MaskTexture
   rendererComponent: {fileID: 170777406}
 --- !u!64 &170777404
 MeshCollider:
@@ -930,7 +930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderExtendIslandOffset: 1
   shaderMainTextureName: _MainTex
-  shaderTargetTextureName: _MaskTexture
+  shaderTargetMaskTextureName: _MaskTexture
   rendererComponent: {fileID: 219137840}
 --- !u!64 &219137838
 MeshCollider:
@@ -945,7 +945,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 657931565}
+  m_Mesh: {fileID: 595089780}
 --- !u!33 &219137839
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -953,7 +953,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219137835}
-  m_Mesh: {fileID: 657931565}
+  m_Mesh: {fileID: 595089780}
 --- !u!23 &219137840
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -987,7 +987,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -1234,19 +1234,39 @@ MonoBehaviour:
     m_AreaError: 15
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
-  m_Mesh: {fileID: 657931565}
-  m_VersionIndex: 7453
+  m_Mesh: {fileID: 595089780}
+  m_VersionIndex: 7456
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &416111009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6717119209339842490, guid: 761cdc9e4e883334cbdcea062d0befa7,
+    type: 3}
+  m_PrefabInstance: {fileID: 2729281214152228920}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &416111011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416111009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51740a99f78fabb4ca71662f6a706730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 1.5
+  decalPFB: {fileID: 439978013734589423, guid: a296524d87b3ee24896934398b0c48e7, type: 3}
 --- !u!43 &456522428
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28880
+  m_Name: pb_Mesh28460
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1434,7 +1454,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488958796}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.330002, y: -1.8299999, z: 2.92}
+  m_LocalPosition: {x: 16.330002, y: -1.8299999, z: 0.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1763,7 +1783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderExtendIslandOffset: 1
   shaderMainTextureName: _MainTex
-  shaderTargetTextureName: _MaskTexture
+  shaderTargetMaskTextureName: _MaskTexture
   rendererComponent: {fileID: 0}
 --- !u!43 &592190692
 Mesh:
@@ -1771,7 +1791,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28958
+  m_Name: pb_Mesh28510
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1929,13 +1949,13 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!43 &657931565
+--- !u!43 &595089780
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28732
+  m_Name: pb_Mesh28388
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2144,7 +2164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderExtendIslandOffset: 1
   shaderMainTextureName: _MainTex
-  shaderTargetTextureName: _MaskTexture
+  shaderTargetMaskTextureName: _MaskTexture
   rendererComponent: {fileID: 785184692}
 --- !u!64 &785184690
 MeshCollider:
@@ -2495,7 +2515,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28932
+  m_Name: pb_Mesh28490
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2659,7 +2679,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28694
+  m_Name: pb_Mesh28352
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2898,7 +2918,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28794
+  m_Name: pb_Mesh28426
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3086,7 +3106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459506598}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.4, y: -1.8299999, z: 10.49}
+  m_LocalPosition: {x: 16.112, y: -1.8299999, z: 13.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3415,7 +3435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderExtendIslandOffset: 1
   shaderMainTextureName: _MainTex
-  shaderTargetTextureName: _MaskTexture
+  shaderTargetMaskTextureName: _MaskTexture
   rendererComponent: {fileID: 0}
 --- !u!1 &1473602958
 GameObject:
@@ -3448,7 +3468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderFixIslands: {fileID: 4800000, guid: 02612315c4e7ef54e9386f59a38faf1a, type: 3}
   shaderMarkIslands: {fileID: 4800000, guid: fbc7bbb811e48254891075a3b7f0c7b5, type: 3}
-  shaderPaintUV: {fileID: 4800000, guid: 38136c14988d618409f881b481e59577, type: 3}
+  shaderPaintUV: {fileID: 4800000, guid: 3ca4992498203514dbf9390c1674d83b, type: 3}
 --- !u!4 &1473602960
 Transform:
   m_ObjectHideFlags: 0
@@ -3470,7 +3490,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28764
+  m_Name: pb_Mesh28406
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3665,7 +3685,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28714
+  m_Name: pb_Mesh28372
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3874,7 +3894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderExtendIslandOffset: 1
   shaderMainTextureName: _MainTex
-  shaderTargetTextureName: _MaskTexture
+  shaderTargetMaskTextureName: _MaskTexture
   rendererComponent: {fileID: 1924268309}
 --- !u!64 &1924268307
 MeshCollider:
@@ -4577,7 +4597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderExtendIslandOffset: 1
   shaderMainTextureName: _MainTex
-  shaderTargetTextureName: _MaskTexture
+  shaderTargetMaskTextureName: _MaskTexture
   rendererComponent: {fileID: 0}
 --- !u!1 &2729281212887052390
 GameObject:
